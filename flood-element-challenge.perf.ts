@@ -1,5 +1,4 @@
-import { step, TestSettings, By, Until, Key, Browser, ElementHandle, Locator } from '@flood/element';
-import { byPartialAttr } from './utils';
+import { step, TestSettings, By, Until, Key, Browser, Locator } from '@flood/element';
 import assert from 'assert';
 
 const CHALLENGE_URL = 'https://flood-element-challenge.vercel.app/';
@@ -13,6 +12,11 @@ export const settings: TestSettings = {
 	actionDelay: '1s',
 	stepDelay: '2s',
 };
+
+const byPartialAttr = (tag: string, name: string, value: string) => By.js((tag, name, value) => (
+	Array.from(document.querySelectorAll(tag))
+		.filter(el => el.getAttribute(name)?.startsWith(value))
+), tag, name, value);
 
 const confirmStep = async (step: number, browser: Browser) => {
 	await browser.click(By.visibleText('CHECK'));
